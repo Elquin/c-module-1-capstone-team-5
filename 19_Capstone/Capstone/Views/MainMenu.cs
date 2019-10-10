@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Capstone;
 
 namespace Capstone.Views
 {
@@ -10,15 +11,20 @@ namespace Capstone.Views
     /// </summary>
     public class MainMenu : CLIMenu
     {
+        private VendingMachine vend1;
+
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
-        public MainMenu() : base()
+
+        public MainMenu(VendingMachine newVend) : base()
         {
             this.Title = "*** Main Menu ***";
             this.menuOptions.Add("1", "Display Vending Machine Items");
             this.menuOptions.Add("2", "Purchase");
             this.menuOptions.Add("3", "Exit");
+
+            vend1 = newVend;
         }
 
         /// <summary>
@@ -31,27 +37,34 @@ namespace Capstone.Views
         {
             switch (choice)
             {
-              
+                //Display Vending Machine Items
                 case "1":
-                    VendingItem sm = new VendingItem();
-                    sm.GetList();
+                    Console.WriteLine();
+                    Console.WriteLine($"Slot  Item                 Count      Price");
+                    Console.WriteLine("===========================================");
+                    foreach (KeyValuePair<string, Slot> entry in vend1.inventory)
+                    {
+                        string currentCount = entry.Value.Count.ToString();
+                        if (currentCount == "0")
+                        {
+                            currentCount = "SOLD OUT";
+                        }
+                        Console.WriteLine($"{entry.Key, -5} {entry.Value.Item.Name, -20} {currentCount, -10} {entry.Value.Item.Price}", -10);
+                    }
+                    Console.ReadLine();
                     break;
-                    //// This is just a sample, does nothing
-                    //return true;
                 case "2":
                     // Get some input form the user, and then do something
-                    int someNumber = GetInteger("Please enter a whole number:");
-                    int anotherNumber = GetInteger("Please enter another whole number:");
-                    Console.WriteLine($"{someNumber} + {anotherNumber} = {someNumber + anotherNumber}.");
-                    Pause("");
-                    return true;
-                case "3":
                     SubMenu sm = new SubMenu();
-                    sm.Run();
-                    break;
+                sm.Run();
+                Pause("");
+                break;
+                    //return true;
+                case "3":
+                    Console.WriteLine("Thanks for shopping!");
+                break;
             }
             return true;
         }
-
     }
 }

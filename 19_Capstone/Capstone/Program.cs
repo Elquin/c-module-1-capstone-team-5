@@ -12,9 +12,10 @@ namespace Capstone
             VendingMachine vender = new VendingMachine();
             vender.Loader();
 
-            MainMenu mainMenu = new MainMenu();
+            MainMenu mainMenu = new MainMenu(vender);
             mainMenu.Run();
+
         }
-        
+
     }
 }

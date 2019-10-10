@@ -5,10 +5,21 @@ using Capstone.Classes;
 
 namespace Capstone.Classes
 {
-    class VendingItem
-    {
-        VendingMachine newItem = new VendingMachine();
-        public void GetList()
-        
+    public abstract class VendingItem
+    {    
+        public VendingItem(string name, string price, string type)
+        {
+            Type = type;
+            Price = price;
+            Name = name;
+        }
+
+        public string Name { get; private set; }
+        public string Price { get; private set; }
+        public string Type { get; private set; }
+
+        public abstract string Consume();
     }
 }
+
+
