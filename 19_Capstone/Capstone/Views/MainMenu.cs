@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Classes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,10 +16,9 @@ namespace Capstone.Views
         public MainMenu() : base()
         {
             this.Title = "*** Main Menu ***";
-            this.menuOptions.Add("1", "Option One");
-            this.menuOptions.Add("2", "Add two numbers");
-            this.menuOptions.Add("3", "Display a sub-menu");
-            this.menuOptions.Add("Q", "Quit");
+            this.menuOptions.Add("1", "Display Vending Machine Items");
+            this.menuOptions.Add("2", "Purchase");
+            this.menuOptions.Add("3", "Exit");
         }
 
         /// <summary>
@@ -31,9 +31,13 @@ namespace Capstone.Views
         {
             switch (choice)
             {
+              
                 case "1":
-                    // This is just a sample, does nothing
-                    return true;
+                    VendingItem sm = new VendingItem();
+                    sm.GetList();
+                    break;
+                    //// This is just a sample, does nothing
+                    //return true;
                 case "2":
                     // Get some input form the user, and then do something
                     int someNumber = GetInteger("Please enter a whole number:");
