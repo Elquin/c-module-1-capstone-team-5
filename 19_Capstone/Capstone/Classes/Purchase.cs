@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Capstone.Classes
 {
     public class Purchase
     {
-        public double currentMoney = 0;
-        public double FeedMoney(int addedMoney)
+        public double currentMoneyProvided = 0;
+        public void FeedMoney(int addedMoneyInt)
         {
-            currentMoney += addedMoney;
-            return currentMoney;
-        }
+            currentMoneyProvided += addedMoneyInt;
 
-        public void DispenseItem()
-        {
+            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\t" + ("FEED MONEY".PadRight(30)) + (addedMoneyInt.ToString("C2").PadRight(10)) + currentMoneyProvided.ToString("C2"));
 
+            }
         }
 
         public int quarterCount = 0;
@@ -24,6 +25,11 @@ namespace Capstone.Classes
         public double MakeChange(double currentMoney)
         {
             Console.WriteLine($"Here is your change: ${currentMoney}");
+            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\t" + ("GIVE CHANGE".PadRight(30)) + (currentMoney.ToString("C2").PadRight(10)) + "$0.00");
+
+            }
 
             while (currentMoney >= .25)
             {
@@ -44,6 +50,8 @@ namespace Capstone.Classes
             currentMoney = 0;
             return currentMoney;
         }
+
+
 
         
     }

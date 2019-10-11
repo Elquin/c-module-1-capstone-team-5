@@ -8,7 +8,15 @@ namespace Capstone.Views
 {
     public class SubMenu : CLIMenu
     {
-        double currentMoneyProvided = 0;
+        double currentMoneyProvided
+        {
+            get
+            {
+                return purchase1.currentMoneyProvided;
+            }
+        }
+
+        double totalSales = 0;
         private VendingMachine vend1;
         private Purchase purchase1;
 
@@ -35,6 +43,7 @@ namespace Capstone.Views
         /// <returns></returns>
         protected override bool ExecuteSelection(string choice)
         {
+            Console.WriteLine();
             Console.WriteLine($"Current Money Provided: ${currentMoneyProvided}");
             switch (choice)
 
@@ -44,17 +53,11 @@ namespace Capstone.Views
                     Console.WriteLine("Please enter the amount your would like to add in whole dollars only.");
                     string addedMoney = Console.ReadLine();
                     int addedMoneyInt = int.Parse(addedMoney);
-                    currentMoneyProvided += addedMoneyInt;
-
-                    //                    public double currentMoney = 0;
-                    //public double FeedMoney(double addedMoney)
-                    //{
-                    //    currentMoney += addedMoney;
-                    //    return currentMoney;
-                    //}
-
+                    purchase1.FeedMoney(addedMoneyInt);
+                    
                     Pause("Press any key");
                     return true;
+
                 case "2":
                     Console.WriteLine();
                     Console.WriteLine($"Slot  Item                 Count      Price");
@@ -69,6 +72,7 @@ namespace Capstone.Views
                         }
                         Console.WriteLine($"{entry.Key,-5} {entry.Value.Item.Name,-20} {currentCount,-10} ${entry.Value.Item.Price}", -10);
                     }
+
                     Console.WriteLine();
                     Console.WriteLine("Please enter the Slot for the item you would like to purchase.");
                     string itemRequested = Console.ReadLine();
@@ -84,13 +88,21 @@ namespace Capstone.Views
                     else if (vend1.inventory[itemRequested].Count != 0)
                     {
                         double priceOfItemDoub = double.Parse(vend1.inventory[itemRequested].Item.Price);
-                        if (currentMoneyProvided >= priceOfItemDoub)
+                        if (purchase1.currentMoneyProvided >= priceOfItemDoub)
                         {
                             vend1.inventory[itemRequested].Count--;
-                            currentMoneyProvided = currentMoneyProvided - priceOfItemDoub;
+                            purchase1.currentMoneyProvided -= priceOfItemDoub;
                             Console.WriteLine($"Thank you for purchasing {vend1.inventory[itemRequested].Item.Name} for ${vend1.inventory[itemRequested].Item.Price}!");
                             Console.WriteLine($"Your Money Remaining: ${currentMoneyProvided}");
                             Console.WriteLine($"{vend1.inventory[itemRequested].Item.Consume()}");
+
+                            totalSales += priceOfItemDoub;
+
+                            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
+                            {
+                                sw.WriteLine(DateTime.Now + "\t" + (vend1.inventory[itemRequested].Item.Name.PadRight(27)) + (itemRequested.PadRight(3)) + "$" + (vend1.inventory[itemRequested].Item.Price.PadRight(9)) + purchase1.currentMoneyProvided.ToString("C2"));
+
+                            }
                         }
                         else
                         {
@@ -111,16 +123,6 @@ namespace Capstone.Views
                     purchase1.MakeChange(currentMoneyProvided);
 
                     return false;
-                    // if (itemRequested does not match a key)
-                    // Console.WriteLine("Please enter a valid Slot.");
-                    // if (count of item requested equals 0)
-                    // Console.WriteLine("SOLD OUT");
-                    // if (itemRequested does match a key)
-                    // Dispense Method!
-                    //   count of item --
-                    //   current money - price of item
-                    //   cw Name, Cost, Money Remaining (new current money)
-                    //   print Yum Yum message based on type (if statement)
             }
             return false;
         }

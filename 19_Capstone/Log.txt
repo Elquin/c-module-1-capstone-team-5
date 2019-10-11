@@ -1,0 +1,14 @@
+10/11/2019 2:49:35 PM	FEED MONEY                    $10.00    $10.00
+10/11/2019 2:49:39 PM	FEED MONEY                    $3.00     $13.00
+10/11/2019 2:49:42 PM	Potato Crisps              A1 $3.05     $9.95
+10/11/2019 2:49:48 PM	Wonka Bar                  B3 $1.50     $8.45
+10/11/2019 2:49:51 PM	Little League Chew         D2 $0.95     $7.50
+10/11/2019 2:49:53 PM	GIVE CHANGE                   $7.50     $0.00
+10/11/2019 2:51:11 PM	FEED MONEY                    $50.00    $50.00
+10/11/2019 2:51:18 PM	Potato Crisps              A1 $3.05     $46.95
+10/11/2019 2:51:26 PM	Potato Crisps              A1 $3.05     $43.90
+10/11/2019 2:51:29 PM	Potato Crisps              A1 $3.05     $40.85
+10/11/2019 2:51:33 PM	Potato Crisps              A1 $3.05     $37.80
+10/11/2019 2:51:37 PM	Potato Crisps              A1 $3.05     $34.75
+10/11/2019 2:53:26 PM	FEED MONEY                    $30.00    $30.00
+10/11/2019 2:53:53 PM	Potato Crisps              A1 $3.05     $26.95

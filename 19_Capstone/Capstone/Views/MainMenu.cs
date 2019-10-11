@@ -20,14 +20,18 @@ namespace Capstone.Views
 
         public MainMenu(VendingMachine vend1, Purchase purchase1) : base()
         {
-            this.Title = "*** Main Menu ***";
+            this.Title = "************ Main Menu ************";
             this.menuOptions.Add("1", "Display Vending Machine Items");
             this.menuOptions.Add("2", "Purchase");
             this.menuOptions.Add("3", "Exit");
+            this.menuOptions.Add("-", "- - - - - - - - - - - - - - - -");
+
+
 
             this.vend1 = vend1;
             this.purchase1 = purchase1;
         }
+
 
         /// <summary>
         /// The override of ExecuteSelection handles whatever selection was made by the user.
@@ -54,7 +58,7 @@ namespace Capstone.Views
                         Console.WriteLine($"{entry.Key, -5} {entry.Value.Item.Name, -20} {currentCount, -10} ${entry.Value.Item.Price}", -10);
                     }
                     Console.ReadLine();
-                    break;
+                    return true;
                 case "2":
                     // Get some input form the user, and then do something
 
@@ -64,6 +68,11 @@ namespace Capstone.Views
                 break;
                 case "3":
                     Console.WriteLine("Thanks for shopping!");
+                    Console.ReadLine();
+                    break;
+                case "4":
+
+                    Console.WriteLine("Hi!");
                     Console.ReadLine();
                     break;
             }
