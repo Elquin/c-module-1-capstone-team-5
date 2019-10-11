@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Capstone;
+using System.IO;
 
 namespace Capstone.Views
 {
@@ -11,6 +12,15 @@ namespace Capstone.Views
     /// </summary>
     public class MainMenu : CLIMenu
     {
+
+        double totalSales
+        {
+            get
+            {
+                return totalSales;
+            }
+        }
+
         private VendingMachine vend1;
         private Purchase purchase1;
 
@@ -24,9 +34,7 @@ namespace Capstone.Views
             this.menuOptions.Add("1", "Display Vending Machine Items");
             this.menuOptions.Add("2", "Purchase");
             this.menuOptions.Add("3", "Exit");
-            this.menuOptions.Add("-", "- - - - - - - - - - - - - - - -");
-
-
+            this.menuOptions.Add("4", "Sales Report");
 
             this.vend1 = vend1;
             this.purchase1 = purchase1;
@@ -72,8 +80,15 @@ namespace Capstone.Views
                     break;
                 case "4":
 
-                    Console.WriteLine("Hi!");
-                    Console.ReadLine();
+                    using (StreamWriter sw = new StreamWriter("..\\..\\..\\..\\" + "SalesReport" + DateTime.Now.ToString("yyyy-MM-ddTHH_mm_ss") + ".txt"))
+                    {
+                        foreach (KeyValuePair<string, Slot> entry in vend1.inventory)
+                        {
+                            sw.WriteLine($"{entry.Value.Item.Name} + \"|\" + (5 - {entry.Value.Count})");
+                        }
+                        sw.WriteLine();
+                        sw.WriteLine($"{totalSales}");
+                    }
                     break;
             }
             return false;

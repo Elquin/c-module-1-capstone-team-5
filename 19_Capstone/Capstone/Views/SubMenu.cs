@@ -16,7 +16,8 @@ namespace Capstone.Views
             }
         }
 
-        double totalSales = 0;
+
+        public double totalSales = 0;
         private VendingMachine vend1;
         private Purchase purchase1;
 
@@ -108,9 +109,6 @@ namespace Capstone.Views
                         {
                             Console.WriteLine("You do not have enough money. Please feed more money into the machine.");
                         }
-
-
-                        //goto SubMenu;
                     }
                     else
                     {
@@ -120,8 +118,10 @@ namespace Capstone.Views
                     Pause("Press any key");
                     return true;
                 case "3":
+
                     purchase1.MakeChange(currentMoneyProvided);
 
+                    Pause("Press any key");
                     return false;
             }
             return false;
