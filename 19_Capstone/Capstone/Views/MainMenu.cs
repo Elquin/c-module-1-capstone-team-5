@@ -13,22 +13,14 @@ namespace Capstone.Views
     public class MainMenu : CLIMenu
     {
 
-        double totalSales
-        {
-            get
-            {
-                return totalSales;
-            }
-        }
-
         private VendingMachine vend1;
-        private Purchase purchase1;
+  
 
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
 
-        public MainMenu(VendingMachine vend1, Purchase purchase1) : base()
+        public MainMenu(VendingMachine vend1) : base()
         {
             this.Title = "************ Main Menu ************";
             this.menuOptions.Add("1", "Display Vending Machine Items");
@@ -37,7 +29,6 @@ namespace Capstone.Views
             this.menuOptions.Add("4", "Sales Report");
 
             this.vend1 = vend1;
-            this.purchase1 = purchase1;
         }
 
 
@@ -70,7 +61,7 @@ namespace Capstone.Views
                 case "2":
                     // Get some input form the user, and then do something
 
-                    SubMenu sm = new SubMenu(vend1, purchase1);
+                    SubMenu sm = new SubMenu(vend1);
                 sm.Run();
                 Pause("");
                 break;
@@ -79,15 +70,14 @@ namespace Capstone.Views
                     Console.ReadLine();
                     break;
                 case "4":
-
-                    using (StreamWriter sw = new StreamWriter("..\\..\\..\\..\\" + "SalesReport" + DateTime.Now.ToString("yyyy-MM-ddTHH_mm_ss") + ".txt"))
+                    using (StreamWriter sw = new StreamWriter("..\\..\\..\\..\\" + "SalesReport" + DateTime.Now.ToString("yyyy-MM-ddTHH-mm-ss") + ".txt"))
                     {
                         foreach (KeyValuePair<string, Slot> entry in vend1.inventory)
                         {
-                            sw.WriteLine($"{entry.Value.Item.Name} + \"|\" + (5 - {entry.Value.Count})");
+                            sw.WriteLine(entry.Value.Item.Name + "|" + (5 - entry.Value.Count));
                         }
                         sw.WriteLine();
-                        sw.WriteLine($"{totalSales}");
+                        sw.WriteLine($"Total Sales: ${vend1.totalSales}");
                     }
                     break;
             }

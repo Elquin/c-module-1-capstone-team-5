@@ -8,24 +8,14 @@ namespace Capstone.Views
 {
     public class SubMenu : CLIMenu
     {
-        double currentMoneyProvided
-        {
-            get
-            {
-                return purchase1.currentMoneyProvided;
-            }
-        }
-
-
         public double totalSales = 0;
         private VendingMachine vend1;
-        private Purchase purchase1;
 
 
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
-        public SubMenu(VendingMachine vend1, Purchase purchase1) : base()
+        public SubMenu(VendingMachine vend1) : base()
         {
             this.Title = "*** Sub Menu ***";
             this.menuOptions.Add("1", "Feed Money");
@@ -33,7 +23,6 @@ namespace Capstone.Views
             this.menuOptions.Add("3", "Finish Transaction");
 
             this.vend1 = vend1;
-            this.purchase1 = purchase1;
 
         }
         /// <summary>
@@ -45,7 +34,7 @@ namespace Capstone.Views
         protected override bool ExecuteSelection(string choice)
         {
             Console.WriteLine();
-            Console.WriteLine($"Current Money Provided: ${currentMoneyProvided}");
+            Console.WriteLine($"Current Money Provided: ${vend1.currentMoneyProvided}");
             switch (choice)
 
             {
@@ -54,7 +43,7 @@ namespace Capstone.Views
                     Console.WriteLine("Please enter the amount your would like to add in whole dollars only.");
                     string addedMoney = Console.ReadLine();
                     int addedMoneyInt = int.Parse(addedMoney);
-                    purchase1.FeedMoney(addedMoneyInt);
+                    vend1.FeedMoney(addedMoneyInt);
                     
                     Pause("Press any key");
                     return true;
@@ -74,54 +63,25 @@ namespace Capstone.Views
                         Console.WriteLine($"{entry.Key,-5} {entry.Value.Item.Name,-20} {currentCount,-10} ${entry.Value.Item.Price}", -10);
                     }
 
+
                     Console.WriteLine();
                     Console.WriteLine("Please enter the Slot for the item you would like to purchase.");
                     string itemRequested = Console.ReadLine();
 
-                    if (!vend1.inventory.ContainsKey(itemRequested))
-                    {
-                        Console.WriteLine("Please enter a valid Slot");
-                    }
-                    else if (vend1.inventory[itemRequested].Count == 0)
-                    {
-                        Console.WriteLine("SOLD OUT");
-                    }
-                    else if (vend1.inventory[itemRequested].Count != 0)
-                    {
-                        double priceOfItemDoub = double.Parse(vend1.inventory[itemRequested].Item.Price);
-                        if (purchase1.currentMoneyProvided >= priceOfItemDoub)
-                        {
-                            vend1.inventory[itemRequested].Count--;
-                            purchase1.currentMoneyProvided -= priceOfItemDoub;
-                            Console.WriteLine($"Thank you for purchasing {vend1.inventory[itemRequested].Item.Name} for ${vend1.inventory[itemRequested].Item.Price}!");
-                            Console.WriteLine($"Your Money Remaining: ${currentMoneyProvided}");
-                            Console.WriteLine($"{vend1.inventory[itemRequested].Item.Consume()}");
+                    vend1.Dispense(itemRequested);
 
-                            totalSales += priceOfItemDoub;
-
-                            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
-                            {
-                                sw.WriteLine(DateTime.Now + "\t" + (vend1.inventory[itemRequested].Item.Name.PadRight(27)) + (itemRequested.PadRight(3)) + "$" + (vend1.inventory[itemRequested].Item.Price.PadRight(9)) + purchase1.currentMoneyProvided.ToString("C2"));
-
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("You do not have enough money. Please feed more money into the machine.");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please make a valid selection.");
-                    }
-                    Console.ReadLine();
                     Pause("Press any key");
                     return true;
                 case "3":
 
-                    purchase1.MakeChange(currentMoneyProvided);
+                    vend1.MakeChange(vend1.currentMoneyProvided);
 
                     Pause("Press any key");
+
+
+                    MainMenu menu = new MainMenu(vend1);
+                    menu.Run();
+
                     return false;
             }
             return false;
