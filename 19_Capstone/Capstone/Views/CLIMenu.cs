@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Capstone.Classes;
 
 namespace Capstone.Views
 {
@@ -17,7 +18,7 @@ namespace Capstone.Views
         /*** 
          * Model Data that this menu system needs to operate on goes here.
          ***/
-        
+
         /// <summary>
         /// This is where every sub-menu puts its options for display to the user.
         /// </summary>

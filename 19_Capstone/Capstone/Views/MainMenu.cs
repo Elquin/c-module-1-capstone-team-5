@@ -12,19 +12,21 @@ namespace Capstone.Views
     public class MainMenu : CLIMenu
     {
         private VendingMachine vend1;
+        private Purchase purchase1;
 
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
 
-        public MainMenu(VendingMachine newVend) : base()
+        public MainMenu(VendingMachine vend1, Purchase purchase1) : base()
         {
             this.Title = "*** Main Menu ***";
             this.menuOptions.Add("1", "Display Vending Machine Items");
             this.menuOptions.Add("2", "Purchase");
             this.menuOptions.Add("3", "Exit");
 
-            vend1 = newVend;
+            this.vend1 = vend1;
+            this.purchase1 = purchase1;
         }
 
         /// <summary>
@@ -49,22 +51,23 @@ namespace Capstone.Views
                         {
                             currentCount = "SOLD OUT";
                         }
-                        Console.WriteLine($"{entry.Key, -5} {entry.Value.Item.Name, -20} {currentCount, -10} {entry.Value.Item.Price}", -10);
+                        Console.WriteLine($"{entry.Key, -5} {entry.Value.Item.Name, -20} {currentCount, -10} ${entry.Value.Item.Price}", -10);
                     }
                     Console.ReadLine();
                     break;
                 case "2":
                     // Get some input form the user, and then do something
-                    SubMenu sm = new SubMenu();
+
+                    SubMenu sm = new SubMenu(vend1, purchase1);
                 sm.Run();
                 Pause("");
                 break;
-                    //return true;
                 case "3":
                     Console.WriteLine("Thanks for shopping!");
-                break;
+                    Console.ReadLine();
+                    break;
             }
-            return true;
+            return false;
         }
     }
 }

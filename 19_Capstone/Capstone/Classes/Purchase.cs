@@ -4,18 +4,13 @@ using System.Text;
 
 namespace Capstone.Classes
 {
-    class Purchase
+    public class Purchase
     {
         public double currentMoney = 0;
-        public double FeedMoney(double addedMoney)
+        public double FeedMoney(int addedMoney)
         {
             currentMoney += addedMoney;
             return currentMoney;
-        }
-
-        public void PurchaseItem(string location)
-        {
-           // Slot.Count--;
         }
 
         public void DispenseItem()
@@ -26,8 +21,10 @@ namespace Capstone.Classes
         public int quarterCount = 0;
         public int dimeCount = 0;
         public int nickelCount = 0;
-        public double MakeChange()
+        public double MakeChange(double currentMoney)
         {
+            Console.WriteLine($"Here is your change: ${currentMoney}");
+
             while (currentMoney >= .25)
             {
                 currentMoney -= .25;
@@ -43,8 +40,9 @@ namespace Capstone.Classes
                 currentMoney -= .05;
                 nickelCount++;
             }
-            return 0.00;
-
+            Console.WriteLine($"Your change is {quarterCount} quarters, {dimeCount} dimes, and {nickelCount} nickels.");
+            currentMoney = 0;
+            return currentMoney;
         }
 
         
