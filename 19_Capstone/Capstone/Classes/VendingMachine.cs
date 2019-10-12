@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Capstone.Views;
 
 
 namespace Capstone.Classes
 {
     public class VendingMachine
     {
-        
         public Dictionary<string, Slot> inventory = new Dictionary<string, Slot>();
 
         public string Loader()
@@ -51,13 +51,13 @@ namespace Capstone.Classes
 
 
         public double currentMoneyProvided = 0;
-        public void FeedMoney(int addedMoneyInt)
+        public void FeedMoney(double addedMoneyDouble)
         {
-            currentMoneyProvided += addedMoneyInt;
+            currentMoneyProvided += addedMoneyDouble;
 
             using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\t" + ("FEED MONEY".PadRight(30)) + (addedMoneyInt.ToString("C2").PadRight(10)) + currentMoneyProvided.ToString("C2"));
+                sw.WriteLine(DateTime.Now + "\t" + ("FEED MONEY".PadRight(30)) + (addedMoneyDouble.ToString("C2").PadRight(10)) + currentMoneyProvided.ToString("C2"));
 
             }
         }
@@ -97,9 +97,11 @@ namespace Capstone.Classes
         public double totalSales = 0;
         public void Dispense(string itemRequested)
         {
+
             if (!inventory.ContainsKey(itemRequested))
             {
                 Console.WriteLine("Please enter a valid Slot");
+
             }
             else if (inventory[itemRequested].Count == 0)
             {
@@ -112,6 +114,7 @@ namespace Capstone.Classes
                 {
                     inventory[itemRequested].Count--;
                     currentMoneyProvided -= priceOfItemDoub;
+                    Console.Clear();
                     Console.WriteLine($"Thank you for purchasing {inventory[itemRequested].Item.Name} for ${inventory[itemRequested].Item.Price}!");
                     Console.WriteLine($"Your Money Remaining: ${currentMoneyProvided}");
                     Console.WriteLine($"{inventory[itemRequested].Item.Consume()}");

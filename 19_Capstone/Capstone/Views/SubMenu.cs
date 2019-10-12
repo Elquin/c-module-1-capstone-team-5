@@ -34,21 +34,23 @@ namespace Capstone.Views
         protected override bool ExecuteSelection(string choice)
         {
             Console.WriteLine();
-            Console.WriteLine($"Current Money Provided: ${vend1.currentMoneyProvided}");
+            Console.WriteLine("Current Money Provided: " + "$" + vend1.currentMoneyProvided.ToString(), "C2");
             switch (choice)
 
             {
                 case "1":
-
+                    Console.Clear();
+                    Console.WriteLine($"Current Money Provided: ${vend1.currentMoneyProvided}");
                     Console.WriteLine("Please enter the amount your would like to add in whole dollars only.");
                     string addedMoney = Console.ReadLine();
-                    int addedMoneyInt = int.Parse(addedMoney);
+                    double addedMoneyInt = double.Parse(addedMoney);
                     vend1.FeedMoney(addedMoneyInt);
                     
-                    Pause("Press any key");
+                   // Pause("Press any key");
                     return true;
 
                 case "2":
+                    Console.Clear();
                     Console.WriteLine();
                     Console.WriteLine($"Slot  Item                 Count      Price");
                     Console.WriteLine("===========================================");
@@ -65,19 +67,17 @@ namespace Capstone.Views
 
 
                     Console.WriteLine();
+                    Console.WriteLine($"Current Money Provided: ${vend1.currentMoneyProvided}");
                     Console.WriteLine("Please enter the Slot for the item you would like to purchase.");
                     string itemRequested = Console.ReadLine();
 
                     vend1.Dispense(itemRequested);
 
-                    Pause("Press any key");
+                    //Pause("Press any key");
                     return true;
                 case "3":
-
+          
                     vend1.MakeChange(vend1.currentMoneyProvided);
-
-                    Pause("Press any key");
-
 
                     MainMenu menu = new MainMenu(vend1);
                     menu.Run();

@@ -44,6 +44,7 @@ namespace Capstone.Views
             {
                 //Display Vending Machine Items
                 case "1":
+                    Console.Clear();
                     Console.WriteLine();
                     Console.WriteLine($"Slot  Item                 Count      Price");
                     Console.WriteLine("===========================================");
