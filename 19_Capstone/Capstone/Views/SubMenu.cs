@@ -8,7 +8,7 @@ namespace Capstone.Views
 {
     public class SubMenu : CLIMenu
     {
-        public double totalSales = 0;
+        public decimal totalSales = 0;
         private VendingMachine vend1;
 
 
@@ -43,8 +43,18 @@ namespace Capstone.Views
                     Console.WriteLine($"Current Money Provided: ${vend1.currentMoneyProvided}");
                     Console.WriteLine("Please enter the amount your would like to add in whole dollars only.");
                     string addedMoney = Console.ReadLine();
-                    double addedMoneyInt = double.Parse(addedMoney);
-                    vend1.FeedMoney(addedMoneyInt);
+
+                    if (decimal.Parse(addedMoney) % 1 != 0 || decimal.Parse(addedMoney) < 1)
+                    {
+                        Console.WriteLine("Please enter a valid whole dollar amount.");
+                        addedMoney = "";
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        int addedMoneyInt = int.Parse(addedMoney);
+                        vend1.FeedMoney(addedMoneyInt);
+                    }
                     
                    // Pause("Press any key");
                     return true;
@@ -76,9 +86,15 @@ namespace Capstone.Views
                     //Pause("Press any key");
                     return true;
                 case "3":
+
+                    Console.Clear();
           
                     vend1.MakeChange(vend1.currentMoneyProvided);
+                    Console.ReadLine();
 
+                    //Pause("Press any key");
+
+                    vend1.currentMoneyProvided = 0;
                     MainMenu menu = new MainMenu(vend1);
                     menu.Run();
 

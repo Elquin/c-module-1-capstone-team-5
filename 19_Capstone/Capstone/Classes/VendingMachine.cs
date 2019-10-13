@@ -48,53 +48,20 @@ namespace Capstone.Classes
             return input;
         }
 
-
-
-        public double currentMoneyProvided = 0;
-        public void FeedMoney(double addedMoneyDouble)
+        public decimal currentMoneyProvided = 0;
+        public void FeedMoney(int addedMoneyInt)
         {
-            currentMoneyProvided += addedMoneyDouble;
+                currentMoneyProvided += addedMoneyInt;
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\t" + ("FEED MONEY".PadRight(30)) + (addedMoneyDouble.ToString("C2").PadRight(10)) + currentMoneyProvided.ToString("C2"));
+                using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\t" + ("FEED MONEY".PadRight(30)) + (addedMoneyInt.ToString("C2").PadRight(10)) + currentMoneyProvided.ToString("C2"));
 
-            }
+                }
+            //return addedMoneyInt;
         }
 
-        public int quarterCount = 0;
-        public int dimeCount = 0;
-        public int nickelCount = 0;
-        public double MakeChange(double currentMoney)
-        {
-            Console.WriteLine($"Here is your change: ${currentMoney}");
-            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\t" + ("GIVE CHANGE".PadRight(30)) + (currentMoney.ToString("C2").PadRight(10)) + "$0.00");
-
-            }
-
-            while (currentMoney >= .25)
-            {
-                currentMoney -= .25;
-                quarterCount++;
-            }
-            while (currentMoney >= .10)
-            {
-                currentMoney -= .10;
-                dimeCount++;
-            }
-            while (currentMoney >= .05)
-            {
-                currentMoney -= .05;
-                nickelCount++;
-            }
-            Console.WriteLine($"Your change is {quarterCount} quarters, {dimeCount} dimes, and {nickelCount} nickels.");
-            currentMoney = 0;
-            return currentMoney;
-        }
-
-        public double totalSales = 0;
+        public decimal totalSales = 0;
         public void Dispense(string itemRequested)
         {
 
@@ -109,7 +76,7 @@ namespace Capstone.Classes
             }
             else if (inventory[itemRequested].Count != 0)
             {
-                double priceOfItemDoub = double.Parse(inventory[itemRequested].Item.Price);
+                decimal priceOfItemDoub = decimal.Parse(inventory[itemRequested].Item.Price);
                 if (currentMoneyProvided >= priceOfItemDoub)
                 {
                     inventory[itemRequested].Count--;
@@ -138,6 +105,40 @@ namespace Capstone.Classes
             }
             Console.ReadLine();
         }
+
+        public decimal quarterCount = 0;
+        public decimal dimeCount = 0;
+        public decimal nickelCount = 0;
+        public decimal MakeChange(decimal currentMoneyProvided)
+        {
+            Console.WriteLine($"Here is your change: ${currentMoneyProvided}");
+            using (StreamWriter sw = new StreamWriter(@"..\..\..\..\Log.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\t" + ("GIVE CHANGE".PadRight(30)) + (currentMoneyProvided.ToString("C2").PadRight(10)) + "$0.00");
+
+            }
+            while (currentMoneyProvided >= .25M)
+            {
+                currentMoneyProvided -= .25M;
+                quarterCount++;
+            }
+            while (currentMoneyProvided >= .10M)
+            {
+                currentMoneyProvided -= .10M;
+                dimeCount++;
+            }
+            while (currentMoneyProvided >= .05M)
+            {
+                currentMoneyProvided -= .05M;
+                nickelCount++;
+            }
+            currentMoneyProvided = 0;
+            Console.WriteLine($"Your change is {quarterCount} quarters, {dimeCount} dimes, and {nickelCount} nickels.");
+            //Console.ReadLine();
+            return currentMoneyProvided;
+        }
     }
 }
+    
+
 
