@@ -173,7 +173,7 @@ namespace CapstoneTests
         [DataRow("5", 5, DisplayName = "Feed Positive Int")]
         //Made it mpossible to enter negative number or non-integer into system
 
-        public void FeedMoneyTest(string n, decimal expectedResult)
+        public void FeedMoneyTest(string n, int expectedResult)
         {
             //Arrange
             VendingMachine ex = new VendingMachine();
@@ -184,7 +184,7 @@ namespace CapstoneTests
             decimal actualResult = ex.currentMoneyProvided;
 
             //Assert
-            Assert.AreEqual(actualResult, expectedResult);
+            Assert.AreEqual(actualResult, (decimal)expectedResult);
         }
     }
 }
